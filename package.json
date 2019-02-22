@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reach/router": "^1.2.1",
     "@types/jest": "24.0.6",
     "@types/node": "11.9.4",
+    "@types/reach__router": "^1.2.3",
     "@types/react": "16.8.4",
     "@types/react-dom": "16.8.2",
     "react": "^16.8.3",
@@ -26,5 +28,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "node-sass": "^4.11.0"
+  }
 }
