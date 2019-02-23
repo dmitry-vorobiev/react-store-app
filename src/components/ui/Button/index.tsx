@@ -13,7 +13,9 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button(props: Props) {
     const {disabled, inline, children, type, onClick, theme = ''} = props;
-    const className = ['button', theme, inline ? 'inline' : ''].filter(c => c).join(' ');
+    const className = ['button', theme, inline ? 'inline' : '', props.className]
+        .filter(c => c)
+        .join(' ');
     return (
         <button type={type} onClick={onClick} className={className} disabled={disabled}>
             {children}

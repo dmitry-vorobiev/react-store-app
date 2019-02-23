@@ -1,3 +1,5 @@
+import './styles.scss';
+
 import * as React from 'react';
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
@@ -12,7 +14,7 @@ interface Props {
 function SignOutButtonView({signOut}: Props) {
     return (
         <Button theme="blank" onClick={signOut} aria-describedby="exit" inline>
-            <ExitIcon width={22} />
+            <ExitIcon className="sign_out" width={22} />
         </Button>
     );
 }
