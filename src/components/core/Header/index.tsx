@@ -1,25 +1,19 @@
 import * as React from 'react';
 import {Location, RouteComponentProps} from '@reach/router';
-import {Dispatch} from 'redux';
-import {auth} from '../../../features/auth/reducers/auth.reducer';
-import {connect} from 'react-redux';
-import {Button} from '../../ui/Button';
+import {SignOutButton} from '../../../features/auth/components/SignOutButton';
+import {Title} from '../../ui/Title';
 
-interface Props {
-    logOut: () => void;
-}
-
-export function HeaderView({logOut}: Props) {
+export function Header() {
     return (
         <header>
-            <h1>React store app</h1>
+            <Title>React store app</Title>
             <Location>
                 {({location}: RouteComponentProps) => {
                     const {pathname} = location!;
                     return (
                         !pathname.startsWith('/auth') && (
                             <>
-                                You have been signed in. <Button onClick={logOut} inline>Exit</Button>
+                                You have been signed in. <SignOutButton />
                             </>
                         )
                     );
@@ -28,13 +22,3 @@ export function HeaderView({logOut}: Props) {
         </header>
     );
 }
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    logOut() {
-        dispatch(auth.logOut());
-    },
-});
-export const Header = connect(
-    null,
-    mapDispatchToProps
-)(HeaderView);

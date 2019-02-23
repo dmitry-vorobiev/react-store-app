@@ -3,9 +3,11 @@ import './styles.scss';
 import * as React from 'react';
 import {ButtonHTMLAttributes, ReactNode} from 'react';
 
+type Theme = 'primary' | 'blank';
+
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     children?: ReactNode;
-    theme?: 'primary';
+    theme?: Theme;
     inline?: boolean;
 }
 
