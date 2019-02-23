@@ -1,5 +1,5 @@
 import {createSymbiote, Symbiote} from 'redux-symbiote';
-import {AnyAction, Reducer} from "redux";
+import {AnyAction, Reducer} from 'redux';
 
 export interface AuthState {
     loggedIn: boolean;
@@ -11,22 +11,18 @@ interface Symbiotes {
 }
 
 const initialState: AuthState = {
-    loggedIn: false
+    loggedIn: false,
 };
 
 const symbiotes = {
     logIn: (state: AuthState) => ({
-        loggedIn: true
+        loggedIn: true,
     }),
     logOut: (state: AuthState) => ({
-        loggedIn: false
-    })
+        loggedIn: false,
+    }),
 };
 
-const {actions, reducer} = createSymbiote<AuthState, Symbiotes>(
-    initialState,
-    symbiotes,
-    'auth'
-);
+const {actions, reducer} = createSymbiote<AuthState, Symbiotes>(initialState, symbiotes, 'auth');
 
 export default reducer as Reducer<AuthState, AnyAction>;
