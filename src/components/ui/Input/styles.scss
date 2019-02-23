@@ -28,7 +28,7 @@
     }
 
     &:focus {
-        border-color: $orange-700;
+        border-color: $gray-500;
         outline: none;
     }
 
@@ -42,5 +42,13 @@
 
     &::-ms-clear {
         display: none;
+    }
+}
+
+.input.invalid {
+    border-color: $red-700;
+
+    &:focus {
+        border-color: $red-800;
     }
 }

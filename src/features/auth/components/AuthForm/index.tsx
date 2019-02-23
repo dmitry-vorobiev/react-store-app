@@ -23,7 +23,8 @@ function AuthFormView({logIn, signUp, path}: Props) {
     const [secPass, changeSecPass] = useState('');
 
     const register = path === 'register';
-    const canSubmit = login.length > 0 && pass.length > 0 && (register ? pass === secPass : true);
+    const passMatch = register ? pass === secPass : true;
+    const canSubmit = login.length > 0 && pass.length > 0 && passMatch;
 
     function handleLoginChanged(event: ChangeEvent<HTMLInputElement>) {
         changeLogin(event.target.value);
@@ -47,7 +48,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
 
     return (
         <form className="auth_form__root" onSubmit={handleSubmit}>
-            <Title size={2}>{register ? 'Sign up' : 'Sign in'}</Title>
+            <Title size={2}>{register ? 'Create account' : 'Sign in'}</Title>
             <Field>
                 <Label htmlFor="login">E-mail:</Label>
                 <Input
@@ -66,6 +67,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
                     placeholder="Enter your password"
                     value={pass}
                     onChange={handlePassChanged}
+                    invalid={!passMatch}
                 />
             </Field>
             {register && (
@@ -77,13 +79,16 @@ function AuthFormView({logIn, signUp, path}: Props) {
                         placeholder="Repeat your password"
                         value={secPass}
                         onChange={handleSecPassChanged}
+                        invalid={!passMatch}
                     />
+                    {register && pass !== secPass && (
+                        <div className="error">Password doesn't match</div>
+                    )}
                 </Field>
             )}
             <Button type="submit" theme="primary" onClick={logIn} disabled={!canSubmit}>
                 Confirm
             </Button>
-            {register && pass !== secPass && <div className="error">Password doesn't match</div>}
             <span>
                 {register && 'Existing customer? '}
                 <Link to={register ? '/auth/login' : '/auth/register'}>

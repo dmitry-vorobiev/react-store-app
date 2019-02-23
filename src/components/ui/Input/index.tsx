@@ -5,8 +5,21 @@ import {InputHTMLAttributes, ReactNode} from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
     children?: ReactNode;
+    invalid?: boolean
 }
 
 export function Input(props: Props) {
-    return <input {...props} className="input" />;
+    const {id, invalid, type, placeholder, value, onChange} = props;
+    const className = ['input', invalid ? 'invalid' : '', props.className].join(' ');
+
+    return (
+        <input
+            id={id}
+            type={type}
+            className={className}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+        />
+    );
 }
