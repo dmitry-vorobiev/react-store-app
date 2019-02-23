@@ -1,12 +1,12 @@
 import './styles.scss';
 
 import * as React from 'react';
-import {ReactNode} from 'react';
+import {LabelHTMLAttributes, ReactNode} from 'react';
 
-interface Props {
+interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
     children?: ReactNode;
 }
 
-export function Label({children}: Props) {
-    return <label className="form-label">{children}</label>;
+export function Label(props: Props) {
+    return <label {...props} className="form-label"/>;
 }

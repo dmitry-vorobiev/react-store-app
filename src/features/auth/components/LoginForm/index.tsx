@@ -9,6 +9,7 @@ import {Input} from '../../../../components/ui/Input';
 import {ChangeEvent, FormEvent, useCallback, useState} from 'react';
 import {Field} from '../../../../components/ui/Field';
 import {Label} from '../../../../components/ui/Field/Label';
+import {Title} from "../../../../components/ui/Title";
 
 interface Props {
     logIn: () => void;
@@ -24,8 +25,9 @@ function LoginFormView({logIn}: Props) {
 
     return (
         <form className="LoginForm_root" onSubmit={onSubmit}>
+            <Title size={2}>Sign in</Title>
             <Field>
-                <Label>E-mail</Label>
+                <Label htmlFor="login">E-mail</Label>
                 <Input
                     id="login"
                     type="email"
@@ -35,7 +37,7 @@ function LoginFormView({logIn}: Props) {
                 />
             </Field>
             <Field>
-                <Label>Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <Input
                     id="password"
                     type="password"
@@ -45,7 +47,7 @@ function LoginFormView({logIn}: Props) {
                 />
             </Field>
             <Button type="submit" onClick={logIn}>
-                Sign in
+                Confirm
             </Button>
         </form>
     );
