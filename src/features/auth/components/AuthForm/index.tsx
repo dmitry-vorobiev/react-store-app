@@ -28,7 +28,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
     const onPassChanged = useCallback(createInputHandler(changePass), [changePass]);
     const onSecPassChanged = useCallback(createInputHandler(changeSecPass), [changeSecPass]);
 
-    const canSubmit = login.length > 0 && pass.length > 0;
+    const canSubmit = login.length > 0 && pass.length > 0 && (register ? pass === secPass : true);
 
     const onSubmit = useCallback(
         (event: FormEvent<HTMLFormElement>) => {
@@ -79,10 +79,11 @@ function AuthFormView({logIn, signUp, path}: Props) {
             <Button type="submit" theme="primary" onClick={logIn} disabled={!canSubmit}>
                 Confirm
             </Button>
+            {register && pass !== secPass && <div className="error">Password doesn't match</div>}
             <span>
-                {register ? 'Already registered? ' : 'New customer? '}
+                {register && 'Existing customer? '}
                 <Link to={register ? '/auth/login' : '/auth/register'}>
-                    {register ? 'Sign in' : 'Create account'}
+                    {register ? 'Sign in' : 'Create a new account'}
                 </Link>
             </span>
         </form>

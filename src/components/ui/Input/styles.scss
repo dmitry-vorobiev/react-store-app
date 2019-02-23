@@ -32,24 +32,12 @@
         outline: none;
     }
 
-    &::-webkit-input-placeholder {
-        color: #bababa;
-    }
-
-    &::-moz-placeholder {
-        color: #bababa;
-    }
-
-    &:-ms-input-placeholder {
-        color: #bababa;
-    }
-
+    &::placeholder,
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder,
     &::-ms-input-placeholder {
-        color: #bababa;
-    }
-
-    &::placeholder {
-        color: #bababa;
+        color: $gray-400;
     }
 
     &::-ms-clear {
