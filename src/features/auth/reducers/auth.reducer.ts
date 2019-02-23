@@ -5,9 +5,9 @@ export interface AuthState {
     loggedIn: boolean;
 }
 
-interface Symbiotes {
-    logIn: Symbiote<AuthState>;
-    logOut: Symbiote<AuthState>;
+interface Actions {
+    logIn: () => AnyAction;
+    logOut: () => AnyAction;
 }
 
 const initialState: AuthState = {
@@ -23,6 +23,9 @@ const symbiotes = {
     }),
 };
 
-const {actions, reducer} = createSymbiote<AuthState, Symbiotes>(initialState, symbiotes, 'auth');
+const {actions, reducer} = createSymbiote<AuthState, Actions>(initialState, symbiotes, 'auth');
 
 export default reducer as Reducer<AuthState, AnyAction>;
+export const auth = {
+    ...actions
+};

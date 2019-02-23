@@ -8,7 +8,7 @@ interface Props extends RouteComponentProps {
 export function MainPage(props: Props) {
     return (
         <div>
-            You have been logged In
+            Main content
         </div>
     );
 }
