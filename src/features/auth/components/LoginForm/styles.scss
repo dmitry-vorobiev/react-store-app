@@ -1,3 +1,15 @@
-.LoginForm_root {
+@import '../../../../styles/constants';
 
+.LoginForm_root {
+    padding: 20px;
+    background-color: #ffb74d;
+    border-radius: 3px;
+
+    max-width: 600px;
+    margin: 0 auto;
+
+    @media (min-width: $size-tablet) {
+        padding: 40px;
+        margin: 20px auto;
+    }
 }
