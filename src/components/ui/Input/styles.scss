@@ -1,16 +1,17 @@
 @import '../../../styles/constants';
 
-.Input {
+.input {
     box-sizing: border-box;
     display: block;
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid $gray-400;
     border-radius: 4px;
     opacity: 1;
     appearance: none;
+    box-shadow: none;
 
     background-color: white;
-    color: #4a4a4a;
+    color: $blue-gray-900;
 
     font-family: Arial, sans-serif;
     font-size: 16px;
@@ -20,14 +21,14 @@
 
     padding: 12px 12px;
 
-    :not(:disabled) {
+    &:not(:disabled) {
         :hover {
             border-color: red;
         }
     }
 
-    :focus {
-        border-color: red;
+    &:focus {
+        border-color: $orange-700;
         outline: none;
     }
 

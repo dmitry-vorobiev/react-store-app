@@ -8,5 +8,5 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export function Input(props: Props) {
-    return <input {...props} className="Input" />;
+    return <input {...props} className="input" />;
 }

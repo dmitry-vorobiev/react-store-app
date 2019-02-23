@@ -15,17 +15,20 @@ import {Title} from '../../../../components/ui/Title';
 interface Props extends RouteComponentProps {
     logIn: () => void;
     signUp: () => void;
-    register?: boolean;
 }
 
-function LoginFormView({logIn, signUp, register}: Props) {
+function AuthFormView({logIn, signUp, path}: Props) {
+    const register = path === 'register';
+
     const [login, changeLogin] = useState('');
-    const [password, changePassword] = useState('');
+    const [pass, changePass] = useState('');
+    const [secPass, changeSecPass] = useState('');
 
     const onLoginChanged = useCallback(createInputHandler(changeLogin), [changeLogin]);
-    const onPasswordChanged = useCallback(createInputHandler(changePassword), [changePassword]);
+    const onPassChanged = useCallback(createInputHandler(changePass), [changePass]);
+    const onSecPassChanged = useCallback(createInputHandler(changeSecPass), [changeSecPass]);
 
-    const canSubmit = login.length > 0 && password.length > 0;
+    const canSubmit = login.length > 0 && pass.length > 0;
 
     const onSubmit = useCallback(
         (event: FormEvent<HTMLFormElement>) => {
@@ -39,7 +42,7 @@ function LoginFormView({logIn, signUp, register}: Props) {
     );
 
     return (
-        <form className="LoginForm_root" onSubmit={onSubmit}>
+        <form className="auth_form__root" onSubmit={onSubmit}>
             <Title size={2}>{register ? 'Sign up' : 'Sign in'}</Title>
             <Field>
                 <Label htmlFor="login">E-mail:</Label>
@@ -52,24 +55,24 @@ function LoginFormView({logIn, signUp, register}: Props) {
                 />
             </Field>
             <Field>
-                <Label htmlFor="password">Password:</Label>
+                <Label htmlFor="pass">Password:</Label>
                 <Input
-                    id="password"
+                    id="pass"
                     type="password"
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={onPasswordChanged}
+                    value={pass}
+                    onChange={onPassChanged}
                 />
             </Field>
             {register && (
                 <Field>
-                    <Label htmlFor="password2">Repeat password:</Label>
+                    <Label htmlFor="sec-pass">Repeat password:</Label>
                     <Input
-                        id="password2"
+                        id="sec-pass"
                         type="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={onPasswordChanged}
+                        placeholder="Repeat your password"
+                        value={secPass}
+                        onChange={onSecPassChanged}
                     />
                 </Field>
             )}
@@ -100,7 +103,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         dispatch(auth.logIn());
     },
 });
-export const LoginForm = connect(
+export const AuthForm = connect(
     null,
     mapDispatchToProps
-)(LoginFormView);
+)(AuthFormView);
