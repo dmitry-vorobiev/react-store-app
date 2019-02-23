@@ -7,7 +7,7 @@ import {Link, RouteComponentProps} from '@reach/router';
 import {Button} from '../../../../components/ui/Button';
 import {auth} from '../../reducers/auth.reducer';
 import {Input} from '../../../../components/ui/Input';
-import {ChangeEvent, FormEvent, useCallback, useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import {Field} from '../../../../components/ui/Field';
 import {Label} from '../../../../components/ui/Field/Label';
 import {Title} from '../../../../components/ui/Title';
@@ -18,31 +18,35 @@ interface Props extends RouteComponentProps {
 }
 
 function AuthFormView({logIn, signUp, path}: Props) {
-    const register = path === 'register';
-
     const [login, changeLogin] = useState('');
     const [pass, changePass] = useState('');
     const [secPass, changeSecPass] = useState('');
 
-    const onLoginChanged = useCallback(createInputHandler(changeLogin), [changeLogin]);
-    const onPassChanged = useCallback(createInputHandler(changePass), [changePass]);
-    const onSecPassChanged = useCallback(createInputHandler(changeSecPass), [changeSecPass]);
-
+    const register = path === 'register';
     const canSubmit = login.length > 0 && pass.length > 0 && (register ? pass === secPass : true);
 
-    const onSubmit = useCallback(
-        (event: FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            canSubmit && logIn();
-            if (canSubmit) {
-                register ? signUp() : logIn();
-            }
-        },
-        [canSubmit, register, logIn, signUp]
-    );
+    function handleLoginChanged(event: ChangeEvent<HTMLInputElement>) {
+        changeLogin(event.target.value);
+    }
+
+    function handlePassChanged(event: ChangeEvent<HTMLInputElement>) {
+        changePass(event.target.value);
+    }
+
+    function handleSecPassChanged(event: ChangeEvent<HTMLInputElement>) {
+        changeSecPass(event.target.value);
+    }
+
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        canSubmit && logIn();
+        if (canSubmit) {
+            register ? signUp() : logIn();
+        }
+    }
 
     return (
-        <form className="auth_form__root" onSubmit={onSubmit}>
+        <form className="auth_form__root" onSubmit={handleSubmit}>
             <Title size={2}>{register ? 'Sign up' : 'Sign in'}</Title>
             <Field>
                 <Label htmlFor="login">E-mail:</Label>
@@ -51,7 +55,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
                     type="email"
                     placeholder="Enter your e-mail"
                     value={login}
-                    onChange={onLoginChanged}
+                    onChange={handleLoginChanged}
                 />
             </Field>
             <Field>
@@ -61,7 +65,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
                     type="password"
                     placeholder="Enter your password"
                     value={pass}
-                    onChange={onPassChanged}
+                    onChange={handlePassChanged}
                 />
             </Field>
             {register && (
@@ -72,7 +76,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
                         type="password"
                         placeholder="Repeat your password"
                         value={secPass}
-                        onChange={onSecPassChanged}
+                        onChange={handleSecPassChanged}
                     />
                 </Field>
             )}
@@ -88,12 +92,6 @@ function AuthFormView({logIn, signUp, path}: Props) {
             </span>
         </form>
     );
-}
-
-function createInputHandler(onChange: (val: string) => void) {
-    return (event: ChangeEvent<HTMLInputElement>) => {
-        onChange(event.target.value);
-    };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

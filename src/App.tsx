@@ -4,7 +4,7 @@ import {Redirect, Router} from '@reach/router';
 import {AuthPage} from './components/pages/AuthPage';
 import {connect} from 'react-redux';
 import {AppState} from './store/root.reducer';
-import {Guard} from './components/Guard';
+import {Guard} from './features/auth/components/Guard';
 import {MainPage} from './components/pages/MainPage';
 import {Header} from './components/core/Header';
 import {AuthForm} from "./features/auth/components/AuthForm";
