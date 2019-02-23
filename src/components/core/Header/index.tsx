@@ -18,7 +18,7 @@ export function HeaderView({logOut}: Props) {
                     return (
                         !pathname.startsWith('/auth') && (
                             <>
-                                You have been signed in. <Button onClick={logOut}>Exit</Button>
+                                You have been signed in. <Button onClick={logOut} inline>Exit</Button>
                             </>
                         )
                     );
