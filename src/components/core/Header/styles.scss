@@ -1,0 +1,10 @@
+@import "../../../styles/constants";
+
+.header_root {
+    height: $header-height;
+
+    @media (min-width: $size-desktop) {
+        margin: 0 auto;
+        max-width: $size-desktop;
+    }
+}

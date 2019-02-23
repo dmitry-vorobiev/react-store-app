@@ -1,6 +1,15 @@
-.AuthPage_root {
-    height: calc(100vh - 200px);
+@import '../../../styles/constants';
+
+.auth_root {
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding-top: 20px;
+
+    @media (min-width: $size-tablet) {
+        padding-top: 50px;
+    }
+
+    @media (min-width: $size-desktop) {
+        padding-top: 75px;
+    }
 }
