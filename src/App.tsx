@@ -7,6 +7,7 @@ import {AppState} from './store/root.reducer';
 import {Guard} from './components/Guard';
 import {MainPage} from './components/pages/MainPage';
 import {Header} from './components/core/Header';
+import {LoginForm} from "./features/auth/components/LoginForm";
 
 interface Props {
     loggedIn: boolean;
@@ -17,11 +18,14 @@ function AppInner({loggedIn}: Props) {
         <div className="App">
             <Header />
             <Router>
-                <Guard path="auth" hasAccess={!loggedIn} redirect="/">
-                    <AuthPage path="login" />
-                    <Redirect from="/*" to="/auth/login" noThrow />
-                </Guard>
-                <Guard default hasAccess={loggedIn} redirect="/auth">
+                <AuthPage path="auth">
+                    <Guard hasAccess={!loggedIn} redirect="/" default>
+                        <LoginForm path="login" />
+                        <LoginForm path="register" register />
+                        <Redirect from="/*" to="/auth/login" noThrow />
+                    </Guard>
+                </AuthPage>
+                <Guard hasAccess={loggedIn} redirect="/auth" default>
                     <MainPage default />
                 </Guard>
             </Router>

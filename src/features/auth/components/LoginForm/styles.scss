@@ -5,8 +5,8 @@
     background-color: $gray-100;
     border-radius: 3px;
 
-    max-width: 300px;
-    margin: 0 auto;
+    min-width: 320px;
+    max-width: 400px;
 
     @media (min-width: $size-tablet) {
         padding: 40px;

@@ -1,7 +1,13 @@
-import * as React from 'react';
-import {RouteComponentProps} from '@reach/router';
-import {LoginForm} from '../../../features/auth/components/LoginForm';
+import './styles.scss';
 
-export function AuthPage(props: RouteComponentProps) {
-    return <LoginForm />;
+import * as React from 'react';
+import {ReactNode} from 'react';
+import {RouteComponentProps} from '@reach/router';
+
+interface Props extends RouteComponentProps {
+    children?: ReactNode;
+}
+
+export function AuthPage({children}: Props) {
+    return <div className="AuthPage_root">{children}</div>;
 }
