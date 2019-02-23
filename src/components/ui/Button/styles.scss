@@ -1,12 +1,12 @@
 @import '../../../styles/constants';
 
-.Button {
+.button {
     display: block;
     width: 100%;
 
     appearance: none;
     margin: 0;
-    border: 1px solid transparent;
+    border: 1px solid $blue-gray-500;
     border-radius: 4px;
     outline: none;
     cursor: pointer;
@@ -23,6 +23,22 @@
 
     padding: 12px 24px;
 
+    color: white;
+    background-color: $blue-gray-500;
+
+    &:disabled {
+        background-color: $gray-400;
+        border-color: $gray-400;
+    }
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+
     &:-moz-focusring {
         outline: none;
     }
@@ -33,12 +49,20 @@
     }
 }
 
-.default {
+.button.primary {
+    background-color: $orange-600;
+    border-color: $orange-700;
     color: white;
-    background-color: #607d8b;
+    text-shadow: 1px 1px 2px $orange-900;
+
+    &:disabled {
+        background-color: $gray-400;
+        border-color: $gray-400;
+        text-shadow: none;
+    }
 }
 
-.inline {
+.button.inline {
     @media (min-width: $size-tablet) {
         display: inline-block;
         vertical-align: top;

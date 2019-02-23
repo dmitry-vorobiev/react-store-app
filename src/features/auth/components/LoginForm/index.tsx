@@ -9,7 +9,7 @@ import {Input} from '../../../../components/ui/Input';
 import {ChangeEvent, FormEvent, useCallback, useState} from 'react';
 import {Field} from '../../../../components/ui/Field';
 import {Label} from '../../../../components/ui/Field/Label';
-import {Title} from "../../../../components/ui/Title";
+import {Title} from '../../../../components/ui/Title';
 
 interface Props {
     logIn: () => void;
@@ -21,7 +21,16 @@ function LoginFormView({logIn}: Props) {
 
     const onLoginChanged = useCallback(createInputHandler(changeLogin), [changeLogin]);
     const onPasswordChanged = useCallback(createInputHandler(changePassword), [changePassword]);
-    const onSubmit = useCallback(createSubmitHandler(logIn), [logIn]);
+
+    const canSubmit = login.length > 0 && password.length > 0;
+
+    const onSubmit = useCallback(
+        (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            canSubmit && logIn();
+        },
+        [canSubmit, logIn]
+    );
 
     return (
         <form className="LoginForm_root" onSubmit={onSubmit}>
@@ -46,7 +55,7 @@ function LoginFormView({logIn}: Props) {
                     onChange={onPasswordChanged}
                 />
             </Field>
-            <Button type="submit" onClick={logIn}>
+            <Button type="submit" theme="primary" onClick={logIn} disabled={!canSubmit}>
                 Confirm
             </Button>
         </form>
@@ -56,13 +65,6 @@ function LoginFormView({logIn}: Props) {
 function createInputHandler(onChange: (val: string) => void) {
     return (event: ChangeEvent<HTMLInputElement>) => {
         onChange(event.target.value);
-    };
-}
-
-function createSubmitHandler(onSubmit: () => void) {
-    return (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        onSubmit();
     };
 }
 
