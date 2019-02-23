@@ -12,6 +12,7 @@ interface Props {
 export function HeaderView({logOut}: Props) {
     return (
         <header>
+            <h1>React store app</h1>
             <Location>
                 {({location}: RouteComponentProps) => {
                     const {pathname} = location!;

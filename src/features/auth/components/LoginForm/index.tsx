@@ -5,20 +5,32 @@ import {Button} from '../../../../components/ui/Button';
 import {Dispatch} from 'redux';
 import {auth} from '../../reducers/auth.reducer';
 import {connect} from 'react-redux';
+import {Input} from '../../../../components/ui/Input';
+import {FormEvent, useCallback} from 'react';
 
 interface Props {
     logIn: () => void;
 }
 
 function LoginFormView({logIn}: Props) {
+    const onSubmit = useCallback(() => createSubmitHandler(logIn), [logIn]);
+
     return (
-        <div className="LoginForm_root">
-            <div>
-                Press button below to log in.
-            </div>
-            <Button onClick={logIn}>Sign in</Button>
-        </div>
+        <form className="LoginForm_root" onSubmit={onSubmit}>
+            <Input type="email" />
+            <Input type="password" />
+            <Button type="submit" onClick={logIn}>
+                Sign in
+            </Button>
+        </form>
     );
+}
+
+function createSubmitHandler(onSubmit: () => void) {
+    return (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        onSubmit();
+    };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

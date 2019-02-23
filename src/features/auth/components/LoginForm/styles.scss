@@ -2,14 +2,23 @@
 
 .LoginForm_root {
     padding: 20px;
-    background-color: #ffb74d;
+    background-color: #f5f5f5;
     border-radius: 3px;
 
     max-width: 600px;
     margin: 0 auto;
 
+    *:not(:last-child) {
+        margin-bottom: 15px;
+    }
+
     @media (min-width: $size-tablet) {
         padding: 40px;
         margin: 20px auto;
+        box-shadow: 0 2px 4px rgba(108, 108, 108, 0.2);
+
+        *:not(:last-child) {
+            margin-bottom: 15px;
+        }
     }
 }
