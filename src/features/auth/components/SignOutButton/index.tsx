@@ -3,7 +3,7 @@ import './styles.scss';
 import * as React from 'react';
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
-import {Button} from '../../../../components/ui/Button';
+import {Button} from '../../../../shared/components/ui/Button';
 import {ReactComponent as ExitIcon} from '../../../../assets/svg/exit.svg';
 import {auth} from '../../reducers/auth.reducer';
 

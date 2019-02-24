@@ -5,13 +5,13 @@ import {FormEvent} from 'react';
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from '@reach/router';
-import {Button} from '../../../../components/ui/Button';
+import {Button} from '../../../../shared/components/ui/Button';
 import {auth} from '../../reducers/auth.reducer';
-import {Input} from '../../../../components/ui/Input';
-import {Field} from '../../../../components/ui/Field';
-import {Label} from '../../../../components/ui/Field/Label';
-import {Title} from '../../../../components/ui/Title';
-import {useFormInput} from '../../../../lib/forms/hooks';
+import {Input} from '../../../../shared/components/ui/Input';
+import {Field} from '../../../../shared/components/ui/Field';
+import {Label} from '../../../../shared/components/ui/Field/Label';
+import {Title} from '../../../../shared/components/ui/Title';
+import {useFormInput} from '../../../../shared/lib/forms/hooks';
 
 interface Props extends RouteComponentProps {
     logIn: () => void;

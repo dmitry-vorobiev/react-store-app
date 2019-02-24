@@ -3,7 +3,7 @@ import './styles.scss';
 import * as React from 'react';
 import {Location, RouteComponentProps} from '@reach/router';
 import {SignOutButton} from '../../../features/auth/components/SignOutButton';
-import {Title} from '../../ui/Title';
+import {Title} from '../../../shared/components/ui/Title';
 
 export function Header() {
     return (
