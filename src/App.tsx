@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import {Redirect, Router} from '@reach/router';
 import {AuthPage} from './components/pages/AuthPage';
 import {connect} from 'react-redux';
@@ -34,7 +33,7 @@ function AppInner({loggedIn}: Props) {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    loggedIn: state.auth.loggedIn,
+    loggedIn: state.auth.authorized,
 });
 
 export const App = connect(mapStateToProps)(AppInner);

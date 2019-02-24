@@ -2,7 +2,7 @@ import './styles.scss';
 
 import * as React from 'react';
 import {FormEvent} from 'react';
-import {Dispatch} from 'redux';
+import {AnyAction, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from '@reach/router';
 import {Button} from '../../../../shared/components/ui/Button';
@@ -14,8 +14,8 @@ import {Title} from '../../../../shared/components/ui/Title';
 import {useFormInput} from '../../../../shared/lib/forms/hooks';
 
 interface Props extends RouteComponentProps {
-    logIn: () => void;
-    signUp: () => void;
+    logIn: (login: string) => void;
+    signUp: (login: string, password: string) => void;
 }
 
 function AuthFormView({logIn, signUp, path}: Props) {
@@ -24,13 +24,14 @@ function AuthFormView({logIn, signUp, path}: Props) {
     const repeatPassword = useFormInput('');
 
     const register = path === 'register';
+    const passHaveSameLength = password.value.length === repeatPassword.value.length;
     const passMatch = register ? password.value === repeatPassword.value : true;
     const canSubmit = login.value.length && password.value.length && passMatch;
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (canSubmit) {
-            register ? signUp() : logIn();
+            register ? signUp(login.value, password.value) : logIn(login.value);
         }
     }
 
@@ -48,7 +49,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
                     type="password"
                     placeholder="Enter your password"
                     {...password}
-                    invalid={!passMatch}
+                    invalid={passHaveSameLength && !passMatch}
                 />
             </Field>
             {register && (
@@ -59,30 +60,33 @@ function AuthFormView({logIn, signUp, path}: Props) {
                         type="password"
                         placeholder="Repeat your password"
                         {...repeatPassword}
-                        invalid={!passMatch}
+                        invalid={passHaveSameLength && !passMatch}
                     />
-                    {!passMatch && <div className="error">Password doesn't match</div>}
+                    {passHaveSameLength && !passMatch && (
+                        <div className="error">Password doesn't match</div>
+                    )}
                 </Field>
             )}
-            <Button type="submit" theme="primary" onClick={logIn} disabled={!canSubmit}>
+            <Button type="submit" theme="primary" disabled={!canSubmit}>
                 Confirm
             </Button>
-            <span>
+            <div className="link">
                 {register && 'Existing customer? '}
                 <Link to={register ? '/auth/login' : '/auth/register'}>
                     {register ? 'Sign in' : 'Create a new account'}
                 </Link>
-            </span>
+            </div>
         </form>
     );
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    logIn() {
-        dispatch(auth.logIn());
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
+    logIn(login: string) {
+        dispatch(auth.logIn(login));
     },
-    signUp() {
-        dispatch(auth.logIn());
+    signUp(login: string, password: string) {
+        // @ts-ignore
+        dispatch(auth.register(login, password));
     },
 });
 export const AuthForm = connect(

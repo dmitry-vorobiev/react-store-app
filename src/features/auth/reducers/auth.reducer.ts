@@ -1,31 +1,43 @@
-import {createSymbiote, Symbiote} from 'redux-symbiote';
-import {AnyAction, Reducer} from 'redux';
+import {AnyAction, Dispatch, Reducer} from 'redux';
+import {createSymbiote} from 'redux-symbiote';
+import cookies from '../lib/cookies';
 
 export interface AuthState {
-    loggedIn: boolean;
+    authorized: boolean;
+    login: string;
 }
 
 interface Actions {
-    logIn: () => AnyAction;
+    logIn: (login: string) => AnyAction;
     logOut: () => AnyAction;
 }
 
 const initialState: AuthState = {
-    loggedIn: false,
+    authorized: false,
+    login: '',
 };
 
+const key = 'react-store-app';
+
 const symbiotes = {
-    logIn: (state: AuthState) => ({
-        loggedIn: true,
+    logIn: (state: AuthState, login: string) => ({
+        authorized: true,
+        login,
     }),
-    logOut: (state: AuthState) => ({
-        loggedIn: false,
-    }),
+    logOut: (state: AuthState) => initialState,
 };
 
 const {actions, reducer} = createSymbiote<AuthState, Actions>(initialState, symbiotes, 'auth');
 
-export default reducer as Reducer<AuthState, AnyAction>;
+function register(login: string, password: string) {
+    return (dispatch: Dispatch) => {
+        cookies.setItem(key, `${login}:${password}`, null, null, 'localhost', true);
+        dispatch(actions.logIn(login));
+    }
+}
+
+export default reducer as Reducer<AuthState>;
 export const auth = {
-    ...actions
+    ...actions,
+    register
 };

@@ -13,16 +13,19 @@
         margin: 20px auto;
         box-shadow: 0 2px 4px rgba(108, 108, 108, 0.2);
     }
-}
 
-.auth_form__root > *:not(:last-child) {
-    margin-bottom: 15px;
-}
+    & > *:not(:last-child) {
+        margin-bottom: 15px;
+    }
 
-.auth_form__root {
     .error {
-        font-size: 14px;
+        font-size: 13px;
         color: $red-700;
-        margin-top: 6px;
+        margin-top: 3px;
+    }
+
+    .link {
+        font-size: 15px;
+        text-align: center;
     }
 }
