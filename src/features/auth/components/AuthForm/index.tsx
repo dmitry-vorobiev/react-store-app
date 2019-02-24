@@ -30,13 +30,14 @@ function AuthFormView({error, logIn, register, path}: Props) {
     const passHaveSameLength = password.value.length === repeatPassword.value.length;
     const passMatch = registering ? password.value === repeatPassword.value : true;
     const canSubmit = login.value.length && password.value.length && passMatch;
-    const loginError = error === AuthErrorCode.userDoesNotExist;
-    const badPassword = error === AuthErrorCode.badPassword;
+    const hasError = !!error;
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (canSubmit) {
-            registering ? register!(login.value, password.value) : logIn!(login.value, password.value);
+            registering
+                ? register!(login.value, password.value)
+                : logIn!(login.value, password.value);
         }
     }
 
@@ -50,9 +51,11 @@ function AuthFormView({error, logIn, register, path}: Props) {
                     type="email"
                     placeholder="Enter your e-mail"
                     {...login}
-                    invalid={loginError}
+                    invalid={hasError}
                 />
-                {loginError && <div className="error">Account doesn't exist</div>}
+                {hasError && (
+                    <div className="error">{errorMessage(error)}</div>
+                )}
             </Field>
             <Field>
                 <Label htmlFor="pass">Password:</Label>
@@ -61,9 +64,8 @@ function AuthFormView({error, logIn, register, path}: Props) {
                     type="password"
                     placeholder="Enter your password"
                     {...password}
-                    invalid={badPassword || (passHaveSameLength && !passMatch)}
+                    invalid={passHaveSameLength && !passMatch}
                 />
-                {badPassword && <div className="error">Wrong password</div>}
             </Field>
             {registering && (
                 <Field>
@@ -91,6 +93,19 @@ function AuthFormView({error, logIn, register, path}: Props) {
             </div>
         </form>
     );
+}
+
+function errorMessage(code: AuthErrorCode | null): string {
+    if (!code) {
+        return '';
+    }
+
+    switch (code) {
+        case AuthErrorCode.badCredentials:
+            return 'Unable to sign in. Please verify your credentials';
+        case AuthErrorCode.alreadyRegistered:
+            return 'You\'ve registered already';
+    }
 }
 
 function mapStateToProps(state: AppState) {

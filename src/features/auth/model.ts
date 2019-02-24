@@ -1,4 +1,4 @@
 export enum AuthErrorCode {
-    userDoesNotExist,
-    badPassword
+    badCredentials = 'BAD_CREDENTIALS',
+    alreadyRegistered = 'ALREADY_REGISTERED'
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Redirect, Router} from '@reach/router';
 import {AuthPage} from './components/pages/AuthPage';
 import {connect} from 'react-redux';
@@ -6,13 +6,20 @@ import {AppState} from './store/root.reducer';
 import {Guard} from './features/auth/components/Guard';
 import {MainPage} from './components/pages/MainPage';
 import {Header} from './components/core/Header';
-import {AuthForm} from "./features/auth/components/AuthForm";
+import {AuthForm} from './features/auth/components/AuthForm';
+import {Dispatch} from 'redux';
+import {auth} from './features/auth/reducers/auth.reducer';
 
 interface Props {
+    init?: () => void;
     loggedIn: boolean;
 }
 
-function AppInner({loggedIn}: Props) {
+function AppInner({init, loggedIn}: Props) {
+    useEffect(() => {
+        init!();
+    }, []);
+
     return (
         <div className="App">
             <Header />
@@ -32,8 +39,21 @@ function AppInner({loggedIn}: Props) {
     );
 }
 
-const mapStateToProps = (state: AppState) => ({
-    loggedIn: state.auth.authorized,
-});
+function mapStateToProps(state: AppState) {
+    return {
+        loggedIn: state.auth.authorized,
+    };
+}
 
-export const App = connect(mapStateToProps)(AppInner);
+function mapDispatchToProps(dispatch: Dispatch<any>) {
+    return {
+        init() {
+            dispatch(auth.init());
+        },
+    };
+}
+
+export const App = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AppInner);
