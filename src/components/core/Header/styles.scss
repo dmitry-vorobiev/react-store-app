@@ -13,4 +13,23 @@
         margin: 0 auto;
         max-width: $size-desktop;
     }
+
+    .user {
+        display: flex;
+
+        .login {
+            margin-right: 10px;
+        }
+
+        .log_out {
+            padding: 2px 6px;
+            border: 1px solid $gray-400;
+            border-radius: 3px;
+
+            &:hover {
+                border-color: $gray-500;
+                text-decoration: underline;
+            }
+        }
+    }
 }

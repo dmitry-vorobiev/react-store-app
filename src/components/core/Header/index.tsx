@@ -20,8 +20,11 @@ function HeaderView({login = ''}: Props) {
                     const {pathname} = location!;
                     return (
                         !pathname.startsWith('/auth') && (
-                            <div>
-                                {login} <LogoutButton />
+                            <div className="user">
+                                <span className="login">{login}</span>
+                                <LogoutButton>
+                                    <div className="log_out">Exit</div>
+                                </LogoutButton>
                             </div>
                         )
                     );

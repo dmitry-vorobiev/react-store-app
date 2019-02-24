@@ -18,17 +18,17 @@ import {AuthErrorCode} from '../../model';
 interface Props extends RouteComponentProps {
     error: AuthErrorCode | null;
     logIn?: (login: string, password: string) => void;
-    signUp?: (login: string, password: string) => void;
+    register?: (login: string, password: string) => void;
 }
 
-function AuthFormView({error, logIn, signUp, path}: Props) {
+function AuthFormView({error, logIn, register, path}: Props) {
     const login = useFormInput('');
     const password = useFormInput('');
     const repeatPassword = useFormInput('');
 
-    const register = path === 'register';
+    const registering = path === 'register';
     const passHaveSameLength = password.value.length === repeatPassword.value.length;
-    const passMatch = register ? password.value === repeatPassword.value : true;
+    const passMatch = registering ? password.value === repeatPassword.value : true;
     const canSubmit = login.value.length && password.value.length && passMatch;
     const loginError = error === AuthErrorCode.userDoesNotExist;
     const badPassword = error === AuthErrorCode.badPassword;
@@ -36,13 +36,13 @@ function AuthFormView({error, logIn, signUp, path}: Props) {
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (canSubmit) {
-            register ? signUp!(login.value, password.value) : logIn!(login.value, password.value);
+            registering ? register!(login.value, password.value) : logIn!(login.value, password.value);
         }
     }
 
     return (
         <form className="auth_form__root" onSubmit={handleSubmit}>
-            <Title size={2}>{register ? 'Create account' : 'Sign in'}</Title>
+            <Title size={2}>{registering ? 'Create account' : 'Sign in'}</Title>
             <Field>
                 <Label htmlFor="login">E-mail:</Label>
                 <Input
@@ -65,7 +65,7 @@ function AuthFormView({error, logIn, signUp, path}: Props) {
                 />
                 {badPassword && <div className="error">Wrong password</div>}
             </Field>
-            {register && (
+            {registering && (
                 <Field>
                     <Label htmlFor="repeat-pass">Repeat password:</Label>
                     <Input
@@ -84,9 +84,9 @@ function AuthFormView({error, logIn, signUp, path}: Props) {
                 Confirm
             </Button>
             <div className="link">
-                {register && 'Existing customer? '}
-                <Link to={register ? '/auth/login' : '/auth/register'}>
-                    {register ? 'Sign in' : 'Create a new account'}
+                {registering && 'Existing customer? '}
+                <Link to={registering ? '/auth/login' : '/auth/register'}>
+                    {registering ? 'Sign in' : 'Create a new account'}
                 </Link>
             </div>
         </form>
@@ -104,7 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch<any>) {
         logIn(login: string, password: string) {
             dispatch(auth.logIn(login, password));
         },
-        signUp(login: string, password: string) {
+        register(login: string, password: string) {
             dispatch(auth.register(login, password));
         },
     };

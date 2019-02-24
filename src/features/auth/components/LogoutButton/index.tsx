@@ -1,26 +1,27 @@
 import './styles.scss';
 
 import * as React from 'react';
+import {ReactNode} from 'react';
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {Button} from '../../../../shared/components/ui/Button';
-import {ReactComponent as ExitIcon} from '../../../../assets/svg/exit.svg';
 import {auth} from '../../reducers/auth.reducer';
 
 interface Props {
-    signOut?: () => void;
+    children?: ReactNode;
+    logOut?: () => void;
 }
 
-function LogoutButtonView({signOut}: Props) {
+function LogoutButtonView({children, logOut}: Props) {
     return (
-        <Button theme="blank" onClick={signOut} aria-describedby="exit" inline>
-            <ExitIcon className="sign_out" width={22} />
+        <Button theme="blank" onClick={logOut} aria-describedby="exit" inline>
+            {children}
         </Button>
     );
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    signOut() {
+    logOut() {
         dispatch(auth.logOut());
     },
 });
