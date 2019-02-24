@@ -1,0 +1,21 @@
+@import '../../../../shared/styles/constants';
+
+.user_panel {
+    display: flex;
+    align-items: center;
+
+    .login {
+        margin-right: 10px;
+    }
+
+    .log_out {
+        padding: 2px 6px;
+        border: 1px solid $gray-400;
+        border-radius: 3px;
+
+        &:hover {
+            border-color: $gray-500;
+            text-decoration: underline;
+        }
+    }
+}
