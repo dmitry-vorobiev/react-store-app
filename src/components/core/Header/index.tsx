@@ -1,11 +1,17 @@
 import './styles.scss';
 
 import * as React from 'react';
+import {connect} from "react-redux";
 import {Location, RouteComponentProps} from '@reach/router';
 import {SignOutButton} from '../../../features/auth/components/SignOutButton';
 import {Title} from '../../../shared/components/ui/Title';
+import {AppState} from "../../../store/root.reducer";
 
-export function Header() {
+interface Props {
+    login: string;
+}
+
+function HeaderView({login = ''}: Props) {
     return (
         <header className="header_root">
             <Title>React store app</Title>
@@ -14,9 +20,9 @@ export function Header() {
                     const {pathname} = location!;
                     return (
                         !pathname.startsWith('/auth') && (
-                            <>
-                                You have been signed in. <SignOutButton />
-                            </>
+                            <div>
+                                {login} <SignOutButton />
+                            </div>
                         )
                     );
                 }}
@@ -24,3 +30,9 @@ export function Header() {
         </header>
     );
 }
+
+const mapStateToProps = (state: AppState) => ({
+    login: state.auth.login
+});
+
+    export const Header= connect(mapStateToProps)(HeaderView);

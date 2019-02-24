@@ -1,7 +1,13 @@
-@import "../../../shared/styles/constants";
+@import '../../../shared/styles/constants';
 
 .header_root {
     height: $header-height;
+
+    @media (min-width: $size-tablet) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
     @media (min-width: $size-desktop) {
         margin: 0 auto;
