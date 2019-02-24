@@ -17,8 +17,8 @@ import {AuthErrorCode} from '../../model';
 
 interface Props extends RouteComponentProps {
     error: AuthErrorCode | null;
-    logIn: (login: string, password: string) => void;
-    signUp: (login: string, password: string) => void;
+    logIn?: (login: string, password: string) => void;
+    signUp?: (login: string, password: string) => void;
 }
 
 function AuthFormView({error, logIn, signUp, path}: Props) {
@@ -36,7 +36,7 @@ function AuthFormView({error, logIn, signUp, path}: Props) {
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (canSubmit) {
-            register ? signUp(login.value, password.value) : logIn(login.value, password.value);
+            register ? signUp!(login.value, password.value) : logIn!(login.value, password.value);
         }
     }
 
@@ -93,20 +93,22 @@ function AuthFormView({error, logIn, signUp, path}: Props) {
     );
 }
 
-const mapStateToProps = (state: AppState) => ({
-    error: state.auth.error,
-});
+function mapStateToProps(state: AppState) {
+    return {
+        error: state.auth.error,
+    };
+}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    logIn(login: string, password: string) {
-        // @ts-ignore
-        dispatch(auth.logIn(login, password));
-    },
-    signUp(login: string, password: string) {
-        // @ts-ignore
-        dispatch(auth.register(login, password));
-    },
-});
+function mapDispatchToProps(dispatch: Dispatch<any>) {
+    return {
+        logIn(login: string, password: string) {
+            dispatch(auth.logIn(login, password));
+        },
+        signUp(login: string, password: string) {
+            dispatch(auth.register(login, password));
+        },
+    };
+}
 
 export const AuthForm = connect(
     mapStateToProps,

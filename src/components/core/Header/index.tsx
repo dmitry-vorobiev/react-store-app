@@ -3,7 +3,7 @@ import './styles.scss';
 import * as React from 'react';
 import {connect} from "react-redux";
 import {Location, RouteComponentProps} from '@reach/router';
-import {SignOutButton} from '../../../features/auth/components/SignOutButton';
+import {LogoutButton} from '../../../features/auth/components/LogoutButton';
 import {Title} from '../../../shared/components/ui/Title';
 import {AppState} from "../../../store/root.reducer";
 
@@ -21,7 +21,7 @@ function HeaderView({login = ''}: Props) {
                     return (
                         !pathname.startsWith('/auth') && (
                             <div>
-                                {login} <SignOutButton />
+                                {login} <LogoutButton />
                             </div>
                         )
                     );

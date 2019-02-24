@@ -53,6 +53,13 @@ function logIn(login: string, password: string) {
     }
 }
 
+function logOut() {
+    return (dispatch: Dispatch) => {
+        cookies.removeItem(key, '/');
+        dispatch(actions.logOut());
+    }
+}
+
 function register(login: string, password: string) {
     return (dispatch: Dispatch) => {
         const tomorrow = (new Date()).getTime() + 24 * 60 * 60 * 1000;
@@ -65,6 +72,6 @@ function register(login: string, password: string) {
 export default reducer as Reducer<AuthState>;
 export const auth = {
     logIn,
-    logOut: actions.logOut,
+    logOut,
     register
 };

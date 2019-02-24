@@ -8,10 +8,10 @@ import {ReactComponent as ExitIcon} from '../../../../assets/svg/exit.svg';
 import {auth} from '../../reducers/auth.reducer';
 
 interface Props {
-    signOut: () => void;
+    signOut?: () => void;
 }
 
-function SignOutButtonView({signOut}: Props) {
+function LogoutButtonView({signOut}: Props) {
     return (
         <Button theme="blank" onClick={signOut} aria-describedby="exit" inline>
             <ExitIcon className="sign_out" width={22} />
@@ -19,12 +19,12 @@ function SignOutButtonView({signOut}: Props) {
     );
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     signOut() {
         dispatch(auth.logOut());
     },
 });
-export const SignOutButton = connect(
+export const LogoutButton = connect(
     null,
     mapDispatchToProps
-)(SignOutButtonView);
+)(LogoutButtonView);
