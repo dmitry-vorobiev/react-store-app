@@ -1,16 +1,17 @@
 import './styles.scss';
 
 import * as React from 'react';
+import {FormEvent} from 'react';
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from '@reach/router';
 import {Button} from '../../../../components/ui/Button';
 import {auth} from '../../reducers/auth.reducer';
 import {Input} from '../../../../components/ui/Input';
-import {ChangeEvent, FormEvent, useState} from 'react';
 import {Field} from '../../../../components/ui/Field';
 import {Label} from '../../../../components/ui/Field/Label';
 import {Title} from '../../../../components/ui/Title';
+import {useFormInput} from '../../../../lib/forms/hooks';
 
 interface Props extends RouteComponentProps {
     logIn: () => void;
@@ -18,29 +19,16 @@ interface Props extends RouteComponentProps {
 }
 
 function AuthFormView({logIn, signUp, path}: Props) {
-    const [login, changeLogin] = useState('');
-    const [pass, changePass] = useState('');
-    const [secPass, changeSecPass] = useState('');
+    const login = useFormInput('');
+    const password = useFormInput('');
+    const repeatPassword = useFormInput('');
 
     const register = path === 'register';
-    const passMatch = register ? pass === secPass : true;
-    const canSubmit = login.length > 0 && pass.length > 0 && passMatch;
-
-    function handleLoginChanged(event: ChangeEvent<HTMLInputElement>) {
-        changeLogin(event.target.value);
-    }
-
-    function handlePassChanged(event: ChangeEvent<HTMLInputElement>) {
-        changePass(event.target.value);
-    }
-
-    function handleSecPassChanged(event: ChangeEvent<HTMLInputElement>) {
-        changeSecPass(event.target.value);
-    }
+    const passMatch = register ? password.value === repeatPassword.value : true;
+    const canSubmit = login.value.length && password.value.length && passMatch;
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        canSubmit && logIn();
         if (canSubmit) {
             register ? signUp() : logIn();
         }
@@ -51,13 +39,7 @@ function AuthFormView({logIn, signUp, path}: Props) {
             <Title size={2}>{register ? 'Create account' : 'Sign in'}</Title>
             <Field>
                 <Label htmlFor="login">E-mail:</Label>
-                <Input
-                    id="login"
-                    type="email"
-                    placeholder="Enter your e-mail"
-                    value={login}
-                    onChange={handleLoginChanged}
-                />
+                <Input id="login" type="email" placeholder="Enter your e-mail" {...login} />
             </Field>
             <Field>
                 <Label htmlFor="pass">Password:</Label>
@@ -65,25 +47,21 @@ function AuthFormView({logIn, signUp, path}: Props) {
                     id="pass"
                     type="password"
                     placeholder="Enter your password"
-                    value={pass}
-                    onChange={handlePassChanged}
+                    {...password}
                     invalid={!passMatch}
                 />
             </Field>
             {register && (
                 <Field>
-                    <Label htmlFor="sec-pass">Repeat password:</Label>
+                    <Label htmlFor="repeat-pass">Repeat password:</Label>
                     <Input
-                        id="sec-pass"
+                        id="repeat-pass"
                         type="password"
                         placeholder="Repeat your password"
-                        value={secPass}
-                        onChange={handleSecPassChanged}
+                        {...repeatPassword}
                         invalid={!passMatch}
                     />
-                    {register && pass !== secPass && (
-                        <div className="error">Password doesn't match</div>
-                    )}
+                    {!passMatch && <div className="error">Password doesn't match</div>}
                 </Field>
             )}
             <Button type="submit" theme="primary" onClick={logIn} disabled={!canSubmit}>
