@@ -22,14 +22,11 @@
     padding: 12px 12px;
 
     &:not(:disabled) {
-        :hover {
-            border-color: red;
+        &:hover,
+        &:focus {
+            border-color: $green-600;
+            outline: none;
         }
-    }
-
-    &:focus {
-        border-color: $gray-500;
-        outline: none;
     }
 
     &::placeholder,
@@ -48,6 +45,7 @@
 .input.invalid {
     border-color: $red-700;
 
+    &:hover,
     &:focus {
         border-color: $red-800;
     }
