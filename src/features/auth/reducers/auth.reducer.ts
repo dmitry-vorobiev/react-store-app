@@ -2,6 +2,7 @@ import {AnyAction, Dispatch, Reducer} from 'redux';
 import {createSymbiote} from 'redux-symbiote';
 import cookies from '../lib/cookies';
 import {AuthErrorCode} from '../model';
+import {sha256} from 'js-sha256';
 
 export interface AuthState {
     authorized: boolean;
@@ -37,9 +38,9 @@ const symbiotes = {
 const {actions, reducer} = createSymbiote<AuthState, Actions>(initialState, symbiotes, 'auth');
 const key = 'react-store-app';
 
-function prehash(login: string, password: string) {
+function calculateHash(login: string, password: string) {
     // TODO real implementation
-    return `${login}:${password}`;
+    return sha256(`${login}:${password}`);
 }
 
 function saveCookie(login: string, hash: string) {
@@ -50,7 +51,7 @@ function saveCookie(login: string, hash: string) {
 }
 
 function matchCredentials(login: string, password: string): [string, boolean] {
-    const hash = prehash(login, password);
+    const hash = calculateHash(login, password);
     const hasMatch = hash === localStorage.getItem(login);
     return [hash, hasMatch];
 }
@@ -109,7 +110,7 @@ function register(login: string, password: string) {
         if (hasUser(login)) {
             dispatch(actions.fail(AuthErrorCode.alreadyRegistered));
         } else {
-            const hash = prehash(login, password);
+            const hash = calculateHash(login, password);
             saveUser(login, hash);
             saveCookie(login, hash);
             dispatch(actions.logIn(login));
