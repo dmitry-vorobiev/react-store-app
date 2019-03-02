@@ -3,6 +3,7 @@ import {createSymbiote} from 'redux-symbiote';
 import cookies from '../lib/cookies';
 import {AuthErrorCode} from '../model';
 import {sha256} from 'js-sha256';
+import {createUser} from '../api';
 
 export interface AuthState {
     authorized: boolean;
@@ -104,18 +105,16 @@ function logOut() {
     };
 }
 
-function register(login: string, password: string) {
-    return (dispatch: Dispatch) => {
-        if (hasUser(login)) {
-            dispatch(actions.fail(AuthErrorCode.alreadyRegistered));
-        } else {
-            const hash = calculateHash(login, password);
-            saveUser(login, hash);
-            saveCookie(login, hash);
-            dispatch(actions.logIn(login));
-        }
-    };
-}
+const register = (login: string, password: string) => async (dispatch: Dispatch) => {
+    if (hasUser(login)) {
+        dispatch(actions.fail(AuthErrorCode.alreadyRegistered));
+    } else {
+        const hash = calculateHash(login, password);
+        await createUser(login, hash);
+        saveCookie(login, hash);
+        dispatch(actions.logIn(login));
+    }
+};
 
 export default reducer as Reducer<AuthState>;
 export const auth = {
