@@ -1,4 +1,4 @@
-import {User} from "./model";
+import {User} from './model';
 
 const database = initDB();
 
@@ -38,32 +38,27 @@ function initDB(): Promise<IDBDatabase> {
     });
 }
 
-async function createUser(email: string, password: string): Promise<void> {
+async function accessUserStorage(mode?: IDBTransactionMode): Promise<IDBObjectStore> {
     const db = await database;
-    const transaction = db.transaction('users', 'readwrite');
+    const transaction = db.transaction('users', mode);
+    return transaction.objectStore('users');
+}
 
+async function createUser(email: string, password: string): Promise<IDBValidKey> {
+    const users = await accessUserStorage('readwrite');
     return new Promise((resolve, reject) => {
-        transaction.oncomplete = event => resolve();
-        transaction.onabort = event => reject(event);
-        transaction.onerror = event => {
-            console.error(event);
-            reject(event);
-        };
-
-        const users = transaction.objectStore('users');
-        users.add({
+        const request = users.add({
             email,
             password,
         });
+        request.onerror = makeErrorHandler(reject);
+        request.onsuccess = event => resolve(request.result);
     });
 }
 
 async function retrieveUser(email: string): Promise<User | undefined> {
-    const db = await database;
-    const transaction = db.transaction('users', 'readwrite');
-
+    const users = await accessUserStorage('readonly');
     return new Promise((resolve, reject) => {
-        const users = transaction.objectStore('users');
         const request = users.index('email').get(email);
         request.onerror = makeErrorHandler(reject);
         request.onsuccess = event => resolve(request.result);
