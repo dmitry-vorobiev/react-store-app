@@ -1,11 +1,17 @@
+import {User} from "./model";
+
 const database = initDB();
+
+function makeErrorHandler(reject: (err: any) => void) {
+    return (event: Event) => {
+        console.error(event);
+        reject(event);
+    };
+}
 
 function initDB(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
-        const onError = (event: Event) => {
-            console.error(event);
-            reject(event);
-        };
+        const onError = makeErrorHandler(reject);
 
         const request = indexedDB.open('react-store-app', 1);
         request.onsuccess = (event: Event) => {
@@ -36,7 +42,7 @@ async function createUser(email: string, password: string): Promise<void> {
     const db = await database;
     const transaction = db.transaction('users', 'readwrite');
 
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         transaction.oncomplete = event => resolve();
         transaction.onabort = event => reject(event);
         transaction.onerror = event => {
@@ -52,7 +58,16 @@ async function createUser(email: string, password: string): Promise<void> {
     });
 }
 
-export {createUser};
+async function retrieveUser(email: string): Promise<User | undefined> {
+    const db = await database;
+    const transaction = db.transaction('users', 'readwrite');
 
-// @ts-ignore
-window.createUser = createUser;
+    return new Promise((resolve, reject) => {
+        const users = transaction.objectStore('users');
+        const request = users.index('email').get(email);
+        request.onerror = makeErrorHandler(reject);
+        request.onsuccess = event => resolve(request.result);
+    });
+}
+
+export {createUser, retrieveUser};

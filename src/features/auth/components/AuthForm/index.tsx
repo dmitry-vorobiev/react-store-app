@@ -103,6 +103,8 @@ function errorMessage(code: AuthErrorCode | null): string {
             return 'Unable to sign in. Please verify your credentials';
         case AuthErrorCode.alreadyRegistered:
             return "You've registered already";
+        case AuthErrorCode.userNotFound:
+            return "Account doesn't exist";
     }
 }
 

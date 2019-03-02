@@ -3,7 +3,7 @@ import {createSymbiote} from 'redux-symbiote';
 import cookies from '../lib/cookies';
 import {AuthErrorCode} from '../model';
 import {sha256} from 'js-sha256';
-import {createUser} from '../api';
+import {createUser, retrieveUser} from '../api';
 
 export interface AuthState {
     authorized: boolean;
@@ -50,20 +50,6 @@ function saveCookie(login: string, hash: string) {
     cookies.setItem(key, value, expiresAt, '/');
 }
 
-function matchCredentials(login: string, password: string): [string, boolean] {
-    const hash = calculateHash(login, password);
-    const hasMatch = hash === localStorage.getItem(login);
-    return [hash, hasMatch];
-}
-
-function hasUser(login: string): boolean {
-    return !!localStorage.getItem(login);
-}
-
-function saveUser(login: string, hash: string) {
-    localStorage.setItem(login, hash);
-}
-
 function retrieveStoredLogin() {
     const credentials = cookies.getItem(key); // login:hash
 
@@ -75,28 +61,29 @@ function retrieveStoredLogin() {
     }
 }
 
-function init() {
-    return (dispatch: Dispatch) => {
-        const login = retrieveStoredLogin();
+const init = () => (dispatch: Dispatch) => {
+    const login = retrieveStoredLogin();
+    if (login) {
+        dispatch(actions.logIn(login));
+    }
+};
 
-        if (login) {
-            dispatch(actions.logIn(login));
-        }
-    };
-}
+const logIn = (login: string, password: string) => async (dispatch: Dispatch) => {
+    const user = await retrieveUser(login);
 
-function logIn(login: string, password: string) {
-    return (dispatch: Dispatch) => {
-        const [hash, matches] = matchCredentials(login, password);
+    if (user) {
+        const hash = calculateHash(login, password);
 
-        if (matches) {
+        if (hash === user.password) {
             saveCookie(login, hash);
             dispatch(actions.logIn(login));
         } else {
             dispatch(actions.fail(AuthErrorCode.badCredentials));
         }
-    };
-}
+    } else {
+        dispatch(actions.fail(AuthErrorCode.userNotFound));
+    }
+};
 
 function logOut() {
     return (dispatch: Dispatch) => {
@@ -106,7 +93,9 @@ function logOut() {
 }
 
 const register = (login: string, password: string) => async (dispatch: Dispatch) => {
-    if (hasUser(login)) {
+    const user = await retrieveUser(login);
+
+    if (user) {
         dispatch(actions.fail(AuthErrorCode.alreadyRegistered));
     } else {
         const hash = calculateHash(login, password);
