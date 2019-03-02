@@ -39,7 +39,6 @@ const {actions, reducer} = createSymbiote<AuthState, Actions>(initialState, symb
 const key = 'react-store-app';
 
 function calculateHash(login: string, password: string) {
-    // TODO real implementation
     return sha256(`${login}:${password}`);
 }
 

@@ -53,9 +53,7 @@ function AuthFormView({error, logIn, register, path}: Props) {
                     {...login}
                     invalid={hasError}
                 />
-                {hasError && (
-                    <div className="error">{errorMessage(error)}</div>
-                )}
+                {hasError && <div className="auth_form__error">{errorMessage(error)}</div>}
             </Field>
             <Field>
                 <Label htmlFor="pass">Password:</Label>
@@ -78,14 +76,14 @@ function AuthFormView({error, logIn, register, path}: Props) {
                         invalid={passHaveSameLength && !passMatch}
                     />
                     {passHaveSameLength && !passMatch && (
-                        <div className="error">Password doesn't match</div>
+                        <div className="auth_form__error">Password doesn't match</div>
                     )}
                 </Field>
             )}
             <Button type="submit" theme="primary" disabled={!canSubmit}>
                 Confirm
             </Button>
-            <div className="link">
+            <div className="auth_form__link">
                 {registering && 'Existing customer? '}
                 <Link to={registering ? '/auth/login' : '/auth/register'}>
                     {registering ? 'Sign in' : 'Create a new account'}
@@ -104,7 +102,7 @@ function errorMessage(code: AuthErrorCode | null): string {
         case AuthErrorCode.badCredentials:
             return 'Unable to sign in. Please verify your credentials';
         case AuthErrorCode.alreadyRegistered:
-            return 'You\'ve registered already';
+            return "You've registered already";
     }
 }
 
