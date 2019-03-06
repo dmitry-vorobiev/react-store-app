@@ -8,5 +8,5 @@ interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
 }
 
 export function Label(props: Props) {
-    return <label {...props} className="form-label"/>;
+    return <label {...props} className="label__root"/>;
 }

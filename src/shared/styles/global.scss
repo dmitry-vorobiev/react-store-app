@@ -7,14 +7,15 @@ body {
         'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #fafafa;
+    min-height: 100vh;
+    background: $gray-100;
 }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.global_container {
+.global__container {
     @media (min-width: $size-tablet) {
         display: flex;
         justify-content: space-between;

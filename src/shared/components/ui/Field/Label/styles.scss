@@ -1,5 +1,8 @@
-.form-label {
+@import "../../../../styles/constants";
+
+.label__root {
     display: block;
     text-align: left;
     margin-bottom: 6px;
+    color: $blue-gray-700;
 }

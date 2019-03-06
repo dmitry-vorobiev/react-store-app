@@ -2,8 +2,8 @@
 
 .auth_form__root {
     padding: 20px;
-    background-color: $gray-100;
-    border-radius: 3px;
+    border: 1px solid $gray-100;
+    background-color: white;
 
     min-width: 320px;
     max-width: 400px;
@@ -11,7 +11,7 @@
     @media (min-width: $size-tablet) {
         padding: 40px;
         margin: 20px auto;
-        box-shadow: 0 2px 4px rgba(108, 108, 108, 0.2);
+        box-shadow: 1px 1px 0 1px rgba(108, 108, 108, 0.3);
     }
 
     & > *:not(:last-child) {

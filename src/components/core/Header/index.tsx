@@ -12,7 +12,7 @@ interface Props {
 
 function HeaderView({login = ''}: Props) {
     return (
-        <header className="header_root global_container">
+        <header className="header_root global__container">
             <Title>React store app</Title>
             <UserPanel login={login} />
         </header>

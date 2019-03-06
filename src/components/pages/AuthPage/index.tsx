@@ -9,5 +9,5 @@ interface Props extends RouteComponentProps {
 }
 
 export function AuthPage({children}: Props) {
-    return <div className="auth_root">{children}</div>;
+    return <div className="auth_page__root global__container">{children}</div>;
 }

@@ -7,7 +7,7 @@ interface Props extends RouteComponentProps {
 
 export function MainPage(props: Props) {
     return (
-        <section className="global_container">
+        <section className="global__container">
             There should be the main content
         </section>
     );
